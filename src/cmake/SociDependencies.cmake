@@ -26,7 +26,8 @@ set(SOCI_BACKENDS_DB_DEPENDENCIES
   PostgreSQL
   SQLite3
   Firebird
-  DB2)
+  DB2
+  mSQL)
 
 set(SOCI_BACKENDS_ALL_DEPENDENCIES
   Boost

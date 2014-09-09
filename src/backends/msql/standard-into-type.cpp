@@ -20,10 +20,13 @@
 using namespace soci;
 using namespace soci::details;
 using namespace soci::details::msql;
+using std::cout;
+using std::endl;
 
 void msql_standard_into_type_backend::define_by_pos(
     int &position, void *data, exchange_type type)
 {
+	SOCI_MSQL_DEBUG_FUNC
 	data_		= data;
 	type_		= type;
 	position_	= position++;
@@ -31,37 +34,57 @@ void msql_standard_into_type_backend::define_by_pos(
 
 void msql_standard_into_type_backend::pre_fetch()
 {
+	SOCI_MSQL_DEBUG_FUNC
     // ...
 }
 
 void msql_standard_into_type_backend::post_fetch(
     bool gotData, bool calledFromFetch, indicator *ind)
 {
+	SOCI_MSQL_DEBUG_FUNC
 	/* 3.2 doc states this is end-of-rowset condition */
 	if (calledFromFetch == true && gotData == false) {
 		return;
 	}
 
+	SOCI_MSQL_DEBUG("gotData = %d\n",gotData)
+
     if (gotData) {
     	int pos = position_ - 1;
 
+    	SOCI_MSQL_DEBUG("calledFromFetch = %d\n", calledFromFetch)
+    	SOCI_MSQL_DEBUG("pos = %d\n", pos)
+    	SOCI_MSQL_DEBUG("statement_.currentRow_ = %d\n", statement_.currentRow_ )
+    	SOCI_MSQL_DEBUG("msqlResult.numRows = %d\n", statement_.msqlResult_->numRows)
+
     	msqlDataSeek(statement_.msqlResult_,statement_.currentRow_);
     	m_row row = msqlFetchRow(statement_.msqlResult_);
+    	SOCI_MSQL_DEBUG("after msqlFetchRow\n")
 
     	/* !!! Check this: mSQL returns a NULL pointer for a NULL value in database !!! */
+    	if ( row == NULL ) {
+    		SOCI_MSQL_DEBUG("row == NULL\n")
+    		*ind = i_null;
+    		return;
+    	}
+
     	if ( row[pos] == NULL ) {
+        	SOCI_MSQL_DEBUG("row[pos] == NULL\n")
+
     		if ( ind == NULL ) {
-    			throw soci_error("NULL field and NULL indicator");
+    			throw soci_error("NULL field and NULL indicator\n");
     		}
     		*ind = i_null;
     		return;
     	} else {
+        	SOCI_MSQL_DEBUG("row[pos] != NULL\n")
+
     		if ( ind != NULL )
     			*ind = i_ok;
     	}
 
     	const char *buf = row[pos] != NULL ? row[pos] : "";
-
+    	SOCI_MSQL_DEBUG("switch...")
     	switch (type_) {
 			case x_char: {
 				char *dest = static_cast<char*>(data_);
@@ -113,5 +136,6 @@ void msql_standard_into_type_backend::post_fetch(
 
 void msql_standard_into_type_backend::clean_up()
 {
+	SOCI_MSQL_DEBUG_FUNC
     // ...
 }

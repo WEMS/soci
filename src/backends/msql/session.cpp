@@ -140,16 +140,20 @@ void parse_connect_string(const string &connect_string,
 msql_session_backend::msql_session_backend(
     connection_parameters const & parameters)
 {
+	SOCI_MSQL_DEBUG_FUNC
     /* Parse db and host parameters */
 	std::string host,dbname;
-	bool host_exists, dbname_exists = false;
+	bool host_exists = false;
+	bool dbname_exists = false;
 
 	parse_connect_string(parameters.get_connect_string(), &dbname, &dbname_exists, &host, &host_exists);
 
 	if ( dbname_exists ) {
 		if ( host_exists ) {
+			std::cout << "using host" << std::endl;
 			sock_ = msqlConnect( const_cast<char*>( host.c_str() ) );
 		} else {
+			SOCI_MSQL_DEBUG("Passing NULL host\n")
 			/* Passing NULL as msqlConnect parameter does not work! */
 			char *nullhost = NULL;
 			sock_ = msqlConnect(nullhost);
@@ -168,16 +172,19 @@ msql_session_backend::msql_session_backend(
 
 msql_session_backend::~msql_session_backend()
 {
+	SOCI_MSQL_DEBUG_FUNC
     clean_up();
 }
 
 void msql_session_backend::begin()
 {
+	SOCI_MSQL_DEBUG_FUNC
     /* Unsupported */
 }
 
 void msql_session_backend::commit()
 {
+	SOCI_MSQL_DEBUG_FUNC
 	/* Unsupported */
 }
 
@@ -188,20 +195,24 @@ void msql_session_backend::rollback()
 
 void msql_session_backend::clean_up()
 {
+	SOCI_MSQL_DEBUG_FUNC
     sock_ = NULL;
 }
 
 msql_statement_backend * msql_session_backend::make_statement_backend()
 {
+	SOCI_MSQL_DEBUG_FUNC
     return new msql_statement_backend(*this);
 }
 
 msql_rowid_backend * msql_session_backend::make_rowid_backend()
 {
+	SOCI_MSQL_DEBUG_FUNC
     return new msql_rowid_backend(*this);
 }
 
 msql_blob_backend * msql_session_backend::make_blob_backend()
 {
+	SOCI_MSQL_DEBUG_FUNC
     return new msql_blob_backend(*this);
 }

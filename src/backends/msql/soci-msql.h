@@ -33,6 +33,15 @@
 #include <cstddef>
 #include <string>
 
+/* DEBUG ONLY */
+#define DEBUG
+#ifdef DEBUG
+#include <cstdio>
+#define SOCI_MSQL_DEBUG_FUNC do{ fprintf( stderr, "%s\n", __PRETTY_FUNCTION__); } while( false );
+#define SOCI_MSQL_DEBUG(...) do{ fprintf( stderr, __VA_ARGS__); } while( false );
+#endif
+/* END DEBUG */
+
 namespace soci
 {
 

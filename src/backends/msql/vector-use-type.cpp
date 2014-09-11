@@ -21,6 +21,7 @@ using namespace soci::details;
 void msql_vector_use_type_backend::bind_by_pos(int & /* position */,
         void * /* data */, exchange_type /* type */)
 {
+	SOCI_DEBUG_FUNC
     // ...
 }
 
@@ -28,21 +29,25 @@ void msql_vector_use_type_backend::bind_by_name(
     std::string const & /* name */, void * /* data */,
     exchange_type /* type */)
 {
+	SOCI_DEBUG_FUNC
     // ...
 }
 
 void msql_vector_use_type_backend::pre_use(indicator const * /* ind */)
 {
+	SOCI_DEBUG_FUNC
     // ...
 }
 
 std::size_t msql_vector_use_type_backend::size()
 {
+	SOCI_DEBUG_FUNC
     // ...
     return 1;
 }
 
 void msql_vector_use_type_backend::clean_up()
 {
+	SOCI_DEBUG_FUNC
     // ...
 }

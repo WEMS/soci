@@ -29,6 +29,7 @@ using namespace soci::details::msql;
 void msql_standard_use_type_backend::bind_by_pos(
     int &position, void *data, exchange_type type, bool /* readOnly */)
 {
+	SOCI_DEBUG_FUNC
     data_ = data;
     type_ = type;
     position_ = position++;
@@ -37,6 +38,7 @@ void msql_standard_use_type_backend::bind_by_pos(
 void msql_standard_use_type_backend::bind_by_name(
     std::string const &name, void *data, exchange_type type, bool /* readOnly */)
 {
+	SOCI_DEBUG_FUNC
     data_ = data;
     type_ = type;
     name_ = name;
@@ -44,6 +46,7 @@ void msql_standard_use_type_backend::bind_by_name(
 
 void msql_standard_use_type_backend::pre_use(indicator const *ind)
 {
+	SOCI_DEBUG_FUNC
     if (ind != NULL && *ind == i_null)
     {
         buf_ = new char[5];
@@ -143,11 +146,13 @@ void msql_standard_use_type_backend::pre_use(indicator const *ind)
 void msql_standard_use_type_backend::post_use(
     bool /* gotData */, indicator * /* ind */)
 {
+	SOCI_DEBUG_FUNC
     clean_up();
 }
 
 void msql_standard_use_type_backend::clean_up()
 {
+	SOCI_DEBUG_FUNC
     if (buf_ != NULL)
     {
         delete [] buf_;

@@ -33,15 +33,6 @@
 #include <cstddef>
 #include <string>
 
-/* DEBUG ONLY */
-#define DEBUG
-#ifdef DEBUG
-#include <cstdio>
-#define SOCI_MSQL_DEBUG_FUNC do{ fprintf( stderr, "%s\n", __PRETTY_FUNCTION__); } while( false );
-#define SOCI_MSQL_DEBUG(...) do{ fprintf( stderr, __VA_ARGS__); } while( false );
-#endif
-/* END DEBUG */
-
 namespace soci
 {
 
@@ -154,9 +145,11 @@ struct SOCI_MSQL_DECL msql_statement_backend : details::statement_backend
     msql_session_backend& session_;
 
     /* mSQL specific members */
+    bool executed_;
     m_result* msqlResult_;
     int numberOfRows_;
     int currentRow_;
+    int rowsToConsume_;
     std::string rawQuery_;
 };
 

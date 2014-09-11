@@ -55,6 +55,7 @@ public:
     template <typename T>
     inline void add_holder(T* t, indicator* ind)
     {
+    	SOCI_DEBUG_FUNC
         holders_.push_back(new details::type_holder<T>(t));
         indicators_.push_back(ind);
     }
@@ -65,6 +66,7 @@ public:
     template <typename T>
     T get(std::size_t pos) const
     {
+    	SOCI_DEBUG_FUNC
         assert(holders_.size() >= pos + 1);
 
         typedef typename type_conversion<T>::base_type base_type;
@@ -78,6 +80,7 @@ public:
     template <typename T>
     T get(std::size_t pos, T const &nullValue) const
     {
+    	SOCI_DEBUG_FUNC
         assert(holders_.size() >= pos + 1);
 
         if (i_null == *indicators_[pos])
@@ -91,6 +94,7 @@ public:
     template <typename T>
     T get(std::string const &name) const
     {
+    	SOCI_DEBUG_FUNC
         std::size_t const pos = find_column(name);
         return get<T>(pos);
     }
@@ -98,6 +102,7 @@ public:
     template <typename T>
     T get(std::string const &name, T const &nullValue) const
     {
+    	SOCI_DEBUG_FUNC
         std::size_t const pos = find_column(name);
 
         if (i_null == *indicators_[pos])
@@ -111,6 +116,8 @@ public:
     template <typename T>
     row const& operator>>(T& value) const
     {
+    	SOCI_DEBUG_FUNC
+    	SOCI_DEBUG("currentPos_ = %d\n",currentPos_)
         value = get<T>(currentPos_);
         ++currentPos_;
         return *this;
@@ -118,11 +125,13 @@ public:
 
     void skip(std::size_t num = 1) const
     {
+    	SOCI_DEBUG_FUNC
         currentPos_ += num;
     }
 
     void reset_get_counter() const
     {
+    	SOCI_DEBUG_FUNC
         currentPos_ = 0;
     }
 

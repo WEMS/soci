@@ -33,6 +33,7 @@ void row::uppercase_column_names(bool forceToUpper)
 
 void row::add_properties(column_properties const &cp)
 {
+	SOCI_DEBUG_FUNC
     columns_.push_back(cp);
 
     std::string columnName;
@@ -59,11 +60,13 @@ void row::add_properties(column_properties const &cp)
 
 std::size_t row::size() const
 {
+	SOCI_DEBUG_FUNC
     return holders_.size();
 }
 
 void row::clean_up()
 {
+	SOCI_DEBUG_FUNC
     std::size_t const hsize = holders_.size();
     for (std::size_t i = 0; i != hsize; ++i)
     {
@@ -79,28 +82,33 @@ void row::clean_up()
 
 indicator row::get_indicator(std::size_t pos) const
 {
+	SOCI_DEBUG_FUNC
     assert(indicators_.size() >= static_cast<std::size_t>(pos + 1));
     return *indicators_[pos];
 }
 
 indicator row::get_indicator(std::string const &name) const
 {
+	SOCI_DEBUG_FUNC
     return get_indicator(find_column(name));
 }
 
 column_properties const & row::get_properties(std::size_t pos) const
 {
+	SOCI_DEBUG_FUNC
     assert(columns_.size() >= pos + 1);
     return columns_[pos];
 }
 
 column_properties const & row::get_properties(std::string const &name) const
 {
+	SOCI_DEBUG_FUNC
     return get_properties(find_column(name));
 }
 
 std::size_t row::find_column(std::string const &name) const
 {
+	SOCI_DEBUG_FUNC
     std::map<std::string, std::size_t>::const_iterator it = index_.find(name);
     if (it == index_.end())
     {

@@ -10,10 +10,24 @@
 
 #include "soci-config.h"
 #include "error.h"
+#include "debug.h"
 // std
 #include <cstddef>
 #include <map>
 #include <string>
+
+
+/* DEBUG ONLY */
+//#define DEBUG
+#ifdef DEBUG
+#include <cstdio>
+#define SOCI_DEBUG_FUNC do{ fprintf( stderr, "%s\n", __PRETTY_FUNCTION__); } while( false );
+#define SOCI_DEBUG(...) do{ fprintf( stderr, __VA_ARGS__); } while( false );
+#else
+#define SOCI_DEBUG_FUNC
+#define SOCI_DEBUG(...)
+#endif
+/* END DEBUG */
 
 namespace soci
 {

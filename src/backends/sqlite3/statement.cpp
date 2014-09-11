@@ -38,6 +38,7 @@ void sqlite3_statement_backend::alloc()
 
 void sqlite3_statement_backend::clean_up()
 {
+	SOCI_DEBUG_FUNC
     rowsAffectedBulk_ = -1LL;
 
     if (stmt_)
@@ -51,6 +52,7 @@ void sqlite3_statement_backend::clean_up()
 void sqlite3_statement_backend::prepare(std::string const & query,
     statement_type /* eType */)
 {
+	SOCI_DEBUG_FUNC
     clean_up();
 
     char const* tail = 0; // unused;
@@ -75,6 +77,7 @@ void sqlite3_statement_backend::prepare(std::string const & query,
 // be executed a second time.
 void sqlite3_statement_backend::reset_if_needed()
 {
+	SOCI_DEBUG_FUNC
     if (stmt_ && databaseReady_ == false)
     {
         int const res = sqlite3_reset(stmt_);
@@ -89,6 +92,7 @@ void sqlite3_statement_backend::reset_if_needed()
 statement_backend::exec_fetch_result
 sqlite3_statement_backend::load_rowset(int totalRows)
 {
+	SOCI_DEBUG_FUNC
     statement_backend::exec_fetch_result retVal = ef_success;
     int numCols = -1;
     int i = 0;
@@ -159,6 +163,7 @@ sqlite3_statement_backend::load_rowset(int totalRows)
 statement_backend::exec_fetch_result
 sqlite3_statement_backend::load_one()
 {
+	SOCI_DEBUG_FUNC
     statement_backend::exec_fetch_result retVal = ef_success;
 
     int const res = sqlite3_step(stmt_);
@@ -190,6 +195,7 @@ sqlite3_statement_backend::load_one()
 statement_backend::exec_fetch_result
 sqlite3_statement_backend::bind_and_execute(int number)
 {
+	SOCI_DEBUG_FUNC
     statement_backend::exec_fetch_result retVal = ef_no_data;
 
     long long rowsAffectedBulkTemp = 0;
@@ -248,6 +254,7 @@ sqlite3_statement_backend::bind_and_execute(int number)
 statement_backend::exec_fetch_result
 sqlite3_statement_backend::execute(int number)
 {
+	SOCI_DEBUG_FUNC
     if (stmt_ == NULL)
     {
         throw soci_error("No sqlite statement created");
@@ -280,11 +287,13 @@ sqlite3_statement_backend::execute(int number)
 statement_backend::exec_fetch_result
 sqlite3_statement_backend::fetch(int number)
 {
+	SOCI_DEBUG_FUNC
     return load_rowset(number);
 }
 
 long long sqlite3_statement_backend::get_affected_rows()
 {
+	SOCI_DEBUG_FUNC
     if (rowsAffectedBulk_ >= 0)
     {
         return rowsAffectedBulk_;
@@ -294,23 +303,27 @@ long long sqlite3_statement_backend::get_affected_rows()
 
 int sqlite3_statement_backend::get_number_of_rows()
 {
+	SOCI_DEBUG_FUNC
     return static_cast<int>(dataCache_.size());
 }
 
 std::string sqlite3_statement_backend::rewrite_for_procedure_call(
     std::string const &query)
 {
+	SOCI_DEBUG_FUNC
     return query;
 }
 
 int sqlite3_statement_backend::prepare_for_describe()
 {
+	SOCI_DEBUG_FUNC
     return sqlite3_column_count(stmt_);
 }
 
 void sqlite3_statement_backend::describe_column(int colNum, data_type & type,
                                                 std::string & columnName)
 {
+	SOCI_DEBUG_FUNC
     columnName = sqlite3_column_name(stmt_, colNum-1);
 
     // This is a hack, but the sqlite3 type system does not

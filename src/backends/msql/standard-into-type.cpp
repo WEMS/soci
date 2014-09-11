@@ -20,8 +20,6 @@
 using namespace soci;
 using namespace soci::details;
 using namespace soci::details::msql;
-using std::cout;
-using std::endl;
 
 void msql_standard_into_type_backend::define_by_pos(
     int &position, void *data, exchange_type type)

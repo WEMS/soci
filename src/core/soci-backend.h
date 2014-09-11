@@ -10,7 +10,6 @@
 
 #include "soci-config.h"
 #include "error.h"
-#include "debug.h"
 // std
 #include <cstddef>
 #include <map>

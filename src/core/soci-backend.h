@@ -17,7 +17,7 @@
 
 
 /* DEBUG ONLY */
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #include <cstdio>
 #define SOCI_DEBUG_FUNC do{ fprintf( stderr, "%s\n", __PRETTY_FUNCTION__); } while( false );

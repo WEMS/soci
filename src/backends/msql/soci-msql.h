@@ -32,6 +32,7 @@
 #include <msql.h> // mSQL C API
 #include <cstddef>
 #include <string>
+#include <vector>
 
 namespace soci
 {
@@ -150,7 +151,23 @@ struct SOCI_MSQL_DECL msql_statement_backend : details::statement_backend
     int numberOfRows_;
     int currentRow_;
     int rowsToConsume_;
-    std::string rawQuery_;
+
+    /* Following are needed to deal with binds */
+	bool hasIntoElements_;
+	bool hasVectorIntoElements_;
+	bool hasUseElements_;
+	bool hasVectorUseElements_;
+
+    // the following maps are used for finding data buffers according to
+    // use elements specified by the user
+    std::vector<std::string> queryChunks_;
+    std::vector<std::string> names_;
+
+    typedef std::map<int, char **> UseByPosBuffersMap;
+    UseByPosBuffersMap useByPosBuffers_;
+
+    typedef std::map<std::string, char **> UseByNameBuffersMap;
+    UseByNameBuffersMap useByNameBuffers_;
 };
 
 struct msql_rowid_backend : details::rowid_backend

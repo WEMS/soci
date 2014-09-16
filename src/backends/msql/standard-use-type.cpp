@@ -141,6 +141,17 @@ void msql_standard_use_type_backend::pre_use(indicator const *ind)
             throw soci_error("Use element used with non-supported type.");
         }
     }
+
+    if (position_ > 0)
+    {
+        // binding by position
+        statement_.useByPosBuffers_[position_] = &buf_;
+    }
+    else
+    {
+        // binding by name
+        statement_.useByNameBuffers_[name_] = &buf_;
+    }
 }
 
 void msql_standard_use_type_backend::post_use(

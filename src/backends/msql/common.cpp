@@ -17,7 +17,9 @@
 namespace {
 // helper function for parsing decimal data (for std::tm)
 long parse10(char const *&p1, char *&p2, const char *msg) {
+	SOCI_DEBUG_FUNC
 	long v = std::strtol(p1, &p2, 10);
+	SOCI_DEBUG("p1=%s,p2=%s\n",p1,p2)
 	if (p2 != p1) {
 		p1 = p2 + 1;
 		return v;
@@ -27,12 +29,17 @@ long parse10(char const *&p1, char *&p2, const char *msg) {
 }
 
 long parseMonth(char const *&p1, char *&p2, const char *msg) {
+	SOCI_DEBUG_FUNC
+	SOCI_DEBUG("p1=%s,p2=%s\n",p1,p2)
 	const char *months[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 	char tmp[4] = "XXX";
 	strncpy(tmp,p1,3);
-	p1 += 3;
+	p1 += 4;
 
-	for (int i=0; i<11; i++) {
+	SOCI_DEBUG("tmp=%s\n",tmp);
+
+	for (int i=0; i<12; i++) {
+		SOCI_DEBUG("months[i]=%s\n",months[i]);
 		if (strcmp(tmp,months[i]) == 0)
 			return i+1;
 	}
@@ -44,6 +51,8 @@ long parseMonth(char const *&p1, char *&p2, const char *msg) {
 } // namespace anonymous
 
 void soci::details::msql::parse_std_tm(char const *buf, std::tm &t) {
+	SOCI_DEBUG_FUNC
+	SOCI_DEBUG("buf=%s\n",buf)
 	char const *p1 = buf;
 	char *p2;
 	long year, month, day;
@@ -58,14 +67,15 @@ void soci::details::msql::parse_std_tm(char const *buf, std::tm &t) {
 	 */
 
 	if (strchr(buf, '-') != NULL) {
-		year  = parse10(p1, p2, errMsg);
-		month = parseMonth(p1, p2, errMsg);
-		day   = parse10(p1, p2, errMsg);
+		/* Parse Date */
+		day		= parse10(p1, p2, errMsg);
+		month	= parseMonth(p1, p2, errMsg);
+		year	= parse10(p1, p2, errMsg);
 	} else {
-		/* No date, select arbitrary */
-		year  = 2000;
-		month = 1;
-		day   = 1;
+		/* No date, select arbitrary ('before WEMS')*/
+		day		= 1;
+		month	= 1;
+		year	= 2000;
 	}
 
 
@@ -87,8 +97,8 @@ void soci::details::msql::parse_std_tm(char const *buf, std::tm &t) {
 	std::mktime(&t);
 }
 
-char * soci::details::msql::quote(const char *s, int len)
-{
+char * soci::details::msql::quote(const char *s, int len) {
+	SOCI_DEBUG_FUNC
     char *retv = new char[len + 3];
     retv[0] = '\'';
     strncpy(retv + 1, s, len);

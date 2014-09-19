@@ -18,7 +18,7 @@ find_path(MSQL_INCLUDE_DIR
   NAMES msql.h
   PATH_PREFIXES msql
   PATHS
-  $ENV{BUILDROOT_DIR}/output/target/usr/local/msql3/include/msql.h)
+  $ENV{BUILDROOT_DIR}/output/target/usr/local/msql3/include)
 
 set(MSQL_NAMES msql)
 find_library(MSQL_LIBRARY

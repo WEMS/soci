@@ -1,17 +1,22 @@
 SOCI - The C++ Database Access Library
 ======================================
 
+Branches        | Travis-CI      | AppVeyor-CI | Coverity Scan  |
+----------------|--------------- |-------------|----------------|---
+master          | [![Build Status](https://travis-ci.org/SOCI/soci.svg?branch=master)](https://travis-ci.org/SOCI/soci)         | [![Build status](https://ci.appveyor.com/api/projects/status/ree3vx3kfgs23qk6/branch/master?svg=true)](https://ci.appveyor.com/project/mloskot/soci/branch/master) |  [![Coverage](https://scan.coverity.com/projects/6581/badge.svg)](https://scan.coverity.com/projects/soci-soci) |
+release/3.2     | [![Build Status](https://travis-ci.org/SOCI/soci.svg?branch=release%2F3.2)](https://travis-ci.org/SOCI/soci)  |                                                                                                                                                                    |                                                                                                                 |
+--------------------------------------------------------------------
+
+
+
+
 Website: http://soci.sourceforge.net
 
 GitHub hosts SOCI source code repository, issues tracker and wiki:
 https://github.com/SOCI
 
-Downloads and mailing lists at 
+Downloads and mailing lists at
 http://sourceforge.net/projects/soci/
-
-Travis CI service at https://travis-ci.org/SOCI/soci
-
-[![Build Status](https://api.travis-ci.org/SOCI/soci.png)](https://travis-ci.org/SOCI/soci)
 
 License
 -------
@@ -23,18 +28,18 @@ Requirements
 
 Core:
 * C++ compiler
-* Boost C++ Libraries (optional, headers only)
+* Boost C++ Libraries (optional, headers and Boost.DateTime)
 
 Backend specific client libraries for:
 * DB2
 * Firebird
 * MySQL
-* ODBC andwith specific database driver
+* ODBC with specific database driver
 * Oracle
 * PostgreSQL
 * SQLite 3
 
-See documentation at http://soci.sourceforge.net for details  
+See documentation at http://soci.sourceforge.net for details
 
 Brief History
 -------------

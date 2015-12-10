@@ -6,7 +6,7 @@
 //
 
 #define SOCI_POSTGRESQL_SOURCE
-#include "soci-postgresql.h"
+#include "soci/postgresql/soci-postgresql.h"
 #include <libpq/libpq-fs.h> // libpq
 #include <cctype>
 #include <cstdio>
@@ -30,8 +30,8 @@ using namespace soci::details;
 
 postgresql_rowid_backend::postgresql_rowid_backend(
     postgresql_session_backend & /* session */)
+    : value_(0)
 {
-    // nothing to do here
 }
 
 postgresql_rowid_backend::~postgresql_rowid_backend()
